@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M. Abdullah Yousaf - Civil Engineer</title>
+    <style>
+        :root {
+            --dark-bg: #0f0f1a;
+            --primary-card: rgba(26, 26, 46, 0.7);
+            --primary-text: #e0e0e0;
+            --accent-blue: #00aaff;
+            --accent-blue-dark: #0077cc;
+            --glow-color: rgba(0, 170, 255, 0.5);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--primary-text);
+            background-color: var(--dark-bg);
+            min-height: 100vh;
+        }
+        #neural-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+        header {
+            background: var(--primary-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 20px var(--glow-color);
+            text-align: center;
+        }
+        .profile-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: white;
+            box-shadow: 0 0 30px var(--glow-color);
+            transition: transform 0.3s ease;
+        }
+        .profile-image:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        .profile-info h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffffff, var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .profile-info .title {
+            font-size: 1.3em;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .contact-info {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 15px;
+            background: rgba(0, 170, 255, 0.1);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        .contact-item:hover {
+            background: rgba(0, 170, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .sidebar, .main-section {
+            background: var(--primary-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        .sidebar {
+            height: fit-content;
+        }
+        .section-title {
+            font-size: 1.5em;
+            color: var(--primary-text);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .skill-item {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-dark));
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            margin: 5px;
+            display: inline-block;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .skill-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .experience-item, .certification-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            border-left: 4px solid var(--accent-blue);
+            background: rgba(0, 170, 255, 0.05);
+            border-radius: 0 15px 15px 0;
+            transition: all 0.3s ease;
+        }
+        .experience-item:hover, .certification-item:hover {
+            background: rgba(0, 170, 255, 0.1);
+            transform: translateX(10px);
+        }
+        .experience-title {
+            font-size: 1.2em;
+            color: var(--primary-text);
+            font-weight: bold;
+        }
+        .experience-company {
+            color: var(--accent-blue);
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .experience-date {
+            color: #aaa;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        .experience-description ul {
+            margin-left: 20px;
+        }
+        .experience-description li {
+            margin-bottom: 5px;
+            color: #ccc;
+        }
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-dark));
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 40px var(--glow-color);
+            margin-top: 30px;
+        }
+        .cta-button {
+            background: white;
+            color: var(--accent-blue-dark);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .portfolio-filters {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .filter-btn {
+            background: none;
+            border: 2px solid var(--accent-blue);
+            color: var(--accent-blue);
+            padding: 8px 20px;
+            margin: 0 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent-blue);
+            color: white;
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .portfolio-item {
+            background: var(--primary-card);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .portfolio-content {
+             padding: 20px;
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .profile-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="neural-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <div class="profile-section">
+                <div class="profile-image">
+                    👷‍♂️
+                </div>
+                <div class="profile-info">
+                    <h1>M. ABDULLAH YOUSAF</h1>
+                    <div class="title">Civil Engineer & AI Specialist</div>
+                    <div class="contact-info">
+                        <div class="contact-item"><span>📧</span><span>m.abdullahyousaf121@gmail.com</span></div>
+                        <div class="contact-item"><span>📱</span><span>+92 315 9215220</span></div>
+                        <div class="contact-item"><span>📍</span><span>Faisalabad, Pakistan</span></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="section-title">Education</div>
+                <div class="experience-item">
+                    <div class="experience-title">BSc Civil Engineering</div>
+                    <div class="experience-company">NFC IEFR, Faisalabad</div>
+                    <div class="experience-date">Expected Graduation: 2025</div>
+                </div>
+
+                <div class="section-title">Technical Skills</div>
+                <div class="skills-container">
+                    <span class="skill-item">AutoCAD</span><span class="skill-item">SAP2000</span><span class="skill-item">ETABS</span><span class="skill-item">Primavera</span><span class="skill-item">MS Project</span><span class="skill-item">MS Office</span><span class="skill-item">AI Tools</span><span class="skill-item">Surveying</span><span class="skill-item">Quality Control</span>
+                </div>
+
+                <div class="section-title">Certifications</div>
+                <div class="certification-item"><strong>Generative AI for Project Managers</strong><br><small>Project Management Institute (PMI)</small></div>
+                <div class="certification-item"><strong>Industrial Site Experience</strong></div>
+            </div>
+
+            <div class="main-section">
+                <div class="section-title">Professional Summary</div>
+                <p>Dedicated Civil Engineering student with practical site supervision experience and a strong command of technical software. Proven ability in staff management, surveying, and interpreting technical drawings. Passionate about integrating modern AI tools to enhance project efficiency and problem-solving. Seeking an Assistant Engineer role to apply my skills to innovative construction projects.</p>
+
+                <div class="section-title">Portfolio</div>
+                <div class="portfolio-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="civil">Civil Engineering</button>
+                    <button class="filter-btn" data-filter="ai">AI Projects</button>
+                </div>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item civil"><img src="https://via.placeholder.com/300x180.png/1a1a2e/00aaff?text=Building+Design" alt="Project"><div class="portfolio-content"><h3>Structural Design of G+2 Building</h3><p>Complete structural analysis and design using ETABS and AutoCAD.</p></div></div>
+                    <div class="portfolio-item ai"><img src="https://via.placeholder.com/300x180.png/1a1a2e/00aaff?text=AI+Automation" alt="Project"><div class="portfolio-content"><h3>AI-Powered Report Generation</h3><p>Automated daily construction report summaries using AI workflows.</p></div></div>
+                    <div class="portfolio-item civil"><img src="https://via.placeholder.com/300x180.png/1a1a2e/00aaff?text=Road+Survey" alt="Project"><div class="portfolio-content"><h3>Highway Alignment Survey</h3><p>Conducted topographic survey for a 5km road segment using Auto Level.</p></div></div>
+                    <div class="portfolio-item ai"><img src="https://via.placeholder.com/300x180.png/1a1a2e/00aaff?text=AI+Vision" alt="Project"><div class="portfolio-content"><h3>Architectural Concept Visualization</h3><p>Used generative AI to create photorealistic concept images from sketches.</p></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2 style="margin-bottom: 20px;">Ready to Build the Future?</h2>
+            <button class="cta-button" onclick="window.location.href='mailto:m.abdullahyousaf121@gmail.com'">📧 Contact Me</button>
+        </div>
+    </div>
+
+    <script>
+    /* --- PORTFOLIO FILTER SCRIPT --- */
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            const filter = button.getAttribute('data-filter');
+            portfolioItems.forEach(item => {
+                if (filter === 'all' || item.classList.contains(filter)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    /* --- NEURAL NETWORK BACKGROUND SCRIPT --- */
+    const canvas = document.getElementById('neural-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+    const particleCount = window.innerWidth < 768 ? 40 : 80;
+    const maxDistance = 150;
+    const particleSpeed = 0.5;
+    const lineColor = 'rgba(0, 170, 255, 0.2)';
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.vx = (Math.random() - 0.5) * particleSpeed;
+            this.vy = (Math.random() - 0.5) * particleSpeed;
+            this.radius = Math.random() * 2 + 1;
+        }
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(0, 170, 255, 0.5)';
+            ctx.fill();
+        }
+    }
+
+    function init() {
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+    }
+
+    function connect() {
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < maxDistance) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = lineColor;
+                    ctx.lineWidth = 1;
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+        connect();
+        requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        init();
+    });
+
+    init();
+    animate();
+    </script>
+</body>
+</html>
+```
